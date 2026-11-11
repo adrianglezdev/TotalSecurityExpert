@@ -1,0 +1,16 @@
+vendor/
+node_modules/
+tests/
+docs/
+.claude/
+composer.json
+composer.lock
+phpcs.xml.dist
+phpunit.xml.dist
+CLAUDE.md
+LEEME.md
+.distignore
+.phpunit.result.cache
+dist/
+bin/
+CHANGELOG.md

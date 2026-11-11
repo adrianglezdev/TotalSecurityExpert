@@ -1,0 +1,5 @@
+vendor/
+dist/
+node_modules/
+.phpunit.result.cache
+.claude/settings.local.json

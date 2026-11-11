@@ -1,0 +1,147 @@
+/**
+ * Total Security Expert: estilos de las pantallas de administracion.
+ *
+ * Todo va acotado a .tsexp-admin (el div.wrap de las dos paginas del plugin).
+ *
+ * Paleta de marca y contrastes (WCAG AA, texto normal >= 4.5:1):
+ *   #333333 sobre #FFFFFF  12.63   #333333 sobre #B8EB31  9.00
+ *   #333333 sobre #A6D82A   7.51   #333333 sobre #FFC247  7.86
+ *   #333333 sobre #F0F0F1  11.09   #222222 sobre #FE5D4F  5.22
+ * (#333333 sobre #FE5D4F solo da 4.15: sobre coral se usa #222222.)
+ * Nunca texto blanco sobre lima ni sobre coral.
+ */
+
+.tsexp-admin {
+	--tsexp-dark: #333333;
+	--tsexp-lime: #b8eb31;
+	--tsexp-lime-hover: #a6d82a;
+	--tsexp-coral: #fe5d4f;
+	--tsexp-amber: #ffc247;
+	--tsexp-ink-on-coral: #222222;
+	--tsexp-border: #dcdcde;
+	--tsexp-surface: #ffffff;
+	--tsexp-neutral: #f0f0f1;
+}
+
+/* Cabecera: el logo lleva trazo oscuro, asi que va sobre blanco con filete de marca. */
+.tsexp-admin .tsexp-header {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	margin: 16px 0 20px;
+	padding: 16px 24px;
+	background: var(--tsexp-surface);
+	border: 1px solid var(--tsexp-border);
+	border-bottom: 4px solid var(--tsexp-lime);
+	border-left: 6px solid var(--tsexp-dark);
+	border-radius: 4px;
+}
+
+.tsexp-admin .tsexp-header__logo {
+	display: block;
+	flex: 0 0 auto;
+	width: 96px;
+	height: auto;
+	max-width: 100%;
+}
+
+.tsexp-admin .tsexp-header h1 {
+	margin: 0;
+	padding: 0;
+	color: var(--tsexp-dark);
+	font-size: 1.6em;
+	line-height: 1.3;
+}
+
+/* Tarjetas: seccion general y una por modulo. */
+.tsexp-admin .tsexp-card {
+	margin: 0 0 20px;
+	padding: 4px 24px 12px;
+	background: var(--tsexp-surface);
+	border: 1px solid var(--tsexp-border);
+	border-left: 6px solid var(--tsexp-border);
+	border-radius: 4px;
+}
+
+.tsexp-admin .tsexp-card h2 {
+	margin: 16px 0 8px;
+	padding: 0;
+	color: var(--tsexp-dark);
+	font-size: 1.25em;
+}
+
+/* Modulo activado: borde lima (el estado tambien lo da la casilla marcada). */
+.tsexp-admin .tsexp-card--on {
+	border-left-color: var(--tsexp-lime);
+}
+
+.tsexp-admin .tsexp-card .form-table {
+	margin-top: 0;
+}
+
+/* Boton principal: lima con texto oscuro. */
+.wp-core-ui .tsexp-admin .button-primary {
+	background: var(--tsexp-lime);
+	border-color: var(--tsexp-dark);
+	color: var(--tsexp-dark);
+	font-weight: 600;
+	text-shadow: none;
+	box-shadow: none;
+}
+
+.wp-core-ui .tsexp-admin .button-primary:hover {
+	background: var(--tsexp-lime-hover);
+	border-color: var(--tsexp-dark);
+	color: var(--tsexp-dark);
+}
+
+.wp-core-ui .tsexp-admin .button-primary:focus,
+.wp-core-ui .tsexp-admin .button-primary:active {
+	background: var(--tsexp-lime-hover);
+	border-color: var(--tsexp-dark);
+	color: var(--tsexp-dark);
+	box-shadow: 0 0 0 1px #ffffff, 0 0 0 3px var(--tsexp-dark);
+	outline: 2px solid transparent;
+}
+
+/* Registro. */
+.tsexp-admin .tsexp-log-table {
+	margin-top: 1em;
+}
+
+.tsexp-admin .tsexp-sev {
+	display: inline-block;
+	padding: 2px 8px;
+	border: 1px solid var(--tsexp-dark);
+	border-radius: 10px;
+	background: var(--tsexp-neutral);
+	color: var(--tsexp-dark);
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.5;
+	white-space: nowrap;
+}
+
+.tsexp-admin .tsexp-sev--critical {
+	background: var(--tsexp-coral);
+	border-color: var(--tsexp-ink-on-coral);
+	color: var(--tsexp-ink-on-coral);
+}
+
+.tsexp-admin .tsexp-sev--warning {
+	background: var(--tsexp-amber);
+	color: var(--tsexp-dark);
+}
+
+.tsexp-admin .tsexp-sev--info,
+.tsexp-admin .tsexp-sev--neutral {
+	background: var(--tsexp-neutral);
+	color: var(--tsexp-dark);
+}
+
+@media screen and (max-width: 600px) {
+	.tsexp-admin .tsexp-header {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}

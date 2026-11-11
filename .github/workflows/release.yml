@@ -1,0 +1,62 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: PHP 8.1
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: zip
+          tools: composer:v2
+
+      - name: Instalar dependencias
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Tests
+        run: composer test
+
+      - name: Lint
+        run: composer lint
+
+      - name: Comprobar que el tag coincide con la version del plugin
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          tag_version="${TAG_NAME#v}"
+          header_version="$(grep -m1 -E '^[[:space:]*#@/]*Version:' total-security-expert.php | sed -E 's/^[^:]*:[[:space:]]*//; s/[[:space:]]+$//')"
+          const_version="$(grep -m1 -E "define\( 'TSEXP_VERSION'" total-security-expert.php | sed -E "s/.*'TSEXP_VERSION',[[:space:]]*'([^']+)'.*/\1/")"
+          echo "Tag: ${tag_version} | Cabecera: ${header_version} | TSEXP_VERSION: ${const_version}"
+          if [ -z "$header_version" ] || [ -z "$const_version" ]; then
+            echo "::error::No se pudo leer la version de total-security-expert.php"
+            exit 1
+          fi
+          if [ "$tag_version" != "$header_version" ] || [ "$tag_version" != "$const_version" ]; then
+            echo "::error::El tag (${tag_version}) no coincide con la cabecera (${header_version}) o con TSEXP_VERSION (${const_version})"
+            exit 1
+          fi
+
+      - name: Construir el zip
+        run: composer build
+
+      - name: Crear el release con el zip adjunto
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          gh release create "$TAG_NAME" "dist/total-security-expert-${TAG_NAME#v}.zip" \
+            --title "$TAG_NAME" \
+            --generate-notes \
+            --verify-tag

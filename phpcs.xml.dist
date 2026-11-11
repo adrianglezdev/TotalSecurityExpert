@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<ruleset name="Total Security Expert" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
+	<description>Estandar de codigo de Total Security Expert (WordPress Coding Standards).</description>
+
+	<!-- Que se analiza. modules/ aun puede no existir: PHPCS no falla por ello. -->
+	<file>.</file>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/.claude/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="basepath" value="."/>
+	<arg name="parallel" value="8"/>
+	<arg name="colors"/>
+	<arg value="ps"/>
+
+	<!-- Compatibilidad PHP / WordPress. -->
+	<config name="testVersion" value="8.1-"/>
+	<config name="minimum_wp_version" value="7.0"/>
+	<rule ref="PHPCompatibilityWP"/>
+
+	<rule ref="WordPress"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="total-security-expert"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="tsexp"/>
+				<element value="TSEXP"/>
+				<element value="TotalSecurityExpert"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!--
+		Solo en tests/: los nombres de fichero (TestCase.php, CoreTest.php, Fake_Module.php)
+		siguen PSR-4/PHPUnit y no el "class-*.php" de WordPress, y no se exige
+		documentar cada metodo de test. Todo lo demas (escapado, SQL, prefijos,
+		Yoda...) se aplica igual que en el codigo del plugin.
+	-->
+	<rule ref="WordPress.Files.FileName">
+		<exclude-pattern>*/tests/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionComment">
+		<exclude-pattern>*/tests/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.ClassComment">
+		<exclude-pattern>*/tests/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionCommentThrowTag">
+		<exclude-pattern>*/tests/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FileComment">
+		<exclude-pattern>*/tests/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.VariableComment">
+		<exclude-pattern>*/tests/*</exclude-pattern>
+	</rule>
+
+	<!-- El contrato (docs/ARQUITECTURA.md) fija este nombre de fichero para la clase abstracta. -->
+	<rule ref="WordPress.Files.FileName.InvalidClassFileName">
+		<exclude-pattern>*/includes/abstract-class-module.php</exclude-pattern>
+	</rule>
+</ruleset>

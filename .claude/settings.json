@@ -1,0 +1,8 @@
+{
+  "model": "claude-fable-5-2",
+  "agent": "orquestador",
+  "advisorModel": "claude-fable-5-2",
+  "env": {
+    "CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": "1"
+  }
+}
